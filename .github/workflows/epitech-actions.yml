@@ -41,8 +41,8 @@ jobs:
         run: |
           git clone https://github.com/matteoepitech/EpitechActions.git
           cd EpitechActions
-          chmod +x install_criterion.sh
-          ./install_criterion.sh
+          chmod +x ./dependencies/install_criterion.sh
+          ./dependencies/install_criterion.sh
 
       - name: Verify and run tests
         run: |
