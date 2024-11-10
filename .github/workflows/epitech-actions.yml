@@ -39,7 +39,7 @@ jobs:
 
       - name: Install criterion for tests
         run: |
-          git clone https://github.com/matteoepitech/EpitechActions.git
+          git clone git@github.com:matteoepitech/EpitechActions.git
           cd EpitechActions
           chmod +x install_criterion.sh
           ./install_criterion.sh
