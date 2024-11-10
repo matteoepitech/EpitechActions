@@ -23,12 +23,14 @@ jobs:
           /tmp/style-checker/coding-style.sh . . > epitech-actions-output-style.txt
           errors=$(grep -o '^[0-9]\+' epitech-actions-output-style.txt | head -n 1)
           if [ "$errors" -gt 0 ]; then
-            cat epitech-actions-output-style.txt
+            file_content=$(cat epitech-actions-output-style.txt)
+            echo "::error::$file{file_content}"
             exit 1
           fi
 
   test:
     runs-on: ubuntu-latest
+    needs: style_check
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -38,5 +40,5 @@ jobs:
           if grep -q '^tests_run:' Makefile; then
             make tests_run
           else
-            echo "No tests_run rule found in Makefile."
+          echo "::warning::No tests_run rule found in Makefile."
           fi
