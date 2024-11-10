@@ -33,4 +33,4 @@ jobs:
       - name: Run coding style checker
         run: |
           chmod +x /tmp/style-checker/coding-style.sh
-          /tmp/style-checker/coding-style.sh
+          /tmp/style-checker/coding-style.sh . .
