@@ -6,20 +6,7 @@ on:
       - main # This is the branch you want to make all your tests
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
 
-      - name: Verify and run tests
-        run: |
-          if grep -q '^tests_run:' Makefile; then
-            make tests_run
-          else
-            echo "No tests_run rule found in Makefile."
-          fi
-  
   style_check:
     runs-on: ubuntu-latest
     steps:
@@ -36,6 +23,20 @@ jobs:
           /tmp/style-checker/coding-style.sh . . > epitech-actions-output-style.txt
           errors=$(grep -o '^[0-9]\+' epitech-actions-output-style.txt | head -n 1)
           if [ "$errors" -gt 0 ]; then
-            echo "::error:: $errors coding style error(s) reported."
+            cat epitech-actions-output-style.txt
             exit 1
+          fi
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Verify and run tests
+        run: |
+          if grep -q '^tests_run:' Makefile; then
+            make tests_run
+          else
+            echo "No tests_run rule found in Makefile."
           fi
