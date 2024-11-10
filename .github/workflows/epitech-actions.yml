@@ -26,6 +26,8 @@ jobs:
             file_content=$(tail -n 1 epitech-actions-output-style.txt)
             echo "::error::${file_content}"
             exit 1
+          else
+          echo "::notice::No coding style error reported. Good Job !"
           fi
 
   test:
@@ -37,13 +39,8 @@ jobs:
 
       - name: Install criterion for tests
         run: |
-          git clone https://github.com/Snaipe/Criterion.git
-          cd Criterion
-          mkdir build
-          cd build
-          cmake ..
-          make
-          sudo make install
+          chmod +x install_criterion.sh
+          ./install_criterion.sh
 
       - name: Verify and run tests
         run: |
