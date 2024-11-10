@@ -8,7 +8,7 @@ on:
 jobs:
 
   style_check:
-    runs-on: ubuntu-23.10
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -31,7 +31,7 @@ jobs:
           fi
 
   test:
-    runs-on: ubuntu-23.10
+    runs-on: ubuntu-latest
     needs: style_check
     steps:
       - name: Checkout repository
