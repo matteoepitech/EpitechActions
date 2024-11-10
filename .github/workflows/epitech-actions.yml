@@ -35,6 +35,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Install criterion for tests
+        run: |
+          git clone https://github.com/Snaipe/Criterion.git
+          cd Criterion
+          mkdir build
+          cd build
+          cmake ..
+          make
+          sudo make install
+
       - name: Verify and run tests
         run: |
           if grep -q '^tests_run:' Makefile; then
