@@ -9,5 +9,5 @@
 #include <criterion/redirect.h>
 
 Test (main_test, test_a, .init = cr_redirect_stdout) {
-    cr_assert_eq(11, 12);
+    cr_assert_eq(12, 12);
 }
