@@ -34,7 +34,7 @@ jobs:
         run: |
           chmod +x /tmp/style-checker/coding-style.sh
           /tmp/style-checker/coding-style.sh . . > epitech-actions-output-style.txt
-          errors=$(grep -o '[0-9]\+' epitech-actions-output-style.txt | head -n 1)
+          errors=$(grep -o '^[0-9]\+' epitech-actions-output-style.txt | head -n 1)
           if [ "$errors" -gt 0 ]; then
             echo "::error:: $errors coding style error(s) reported."
             exit 1
