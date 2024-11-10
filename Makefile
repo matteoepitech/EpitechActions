@@ -25,4 +25,8 @@ fclean: clean
 
 re: fclean all
 
-# tests_runs:
+unit_tests:	fclean $(NAME)
+	gcc -o unit_tests tests/*.c -Wall -Wextra --coverage -lcriterion
+
+tests_run:	unit_tests
+	./unit_tests

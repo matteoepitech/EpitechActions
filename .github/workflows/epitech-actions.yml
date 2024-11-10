@@ -24,7 +24,7 @@ jobs:
           errors=$(grep -o '^[0-9]\+' epitech-actions-output-style.txt | head -n 1)
           if [ "$errors" -gt 0 ]; then
             file_content=$(cat epitech-actions-output-style.txt)
-            echo "::error::$file{file_content}"
+            echo "::error::${file_content}"
             exit 1
           fi
 
