@@ -7,7 +7,7 @@ This workflow will build your unit tests and check the coding style in your repo
 3. Do `chmod +x ./install_epitech_actions.sh` if you don't have the permission to execute it
 4. Do `./install_epitech_actions.sh <path>` to install the workflow to the given path
 
-# How to cancel commit on tests fails ?
+# How to cancel commit on tests fails ? (Optional)
 1. Go to your repository on Github
 2. Click on `Settings` (tab with gear icon)
 3. Select `Branches` in the left sidebar
