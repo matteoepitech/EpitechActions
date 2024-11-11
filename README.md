@@ -8,9 +8,19 @@ This workflow will build your unit tests and check the coding style in your repo
 4. Do `./install_epitech_actions.sh <path>` to install the workflow to the given path
 
 # How to cancel commit on tests fails ?
-1. When installing the workflows using `install_epitech_actions.sh`
-2. The script will ask if you want to add branch protection. Write `y` for *yes* or `n` for *no*
-3. It will install Github API on your device and will open in most case a window in your browser to login in with your current Github account
-4. When logged in, the script will automatically add the protection for you
+1. Go to your repository on Github
+2. Click on `Settings` (tab with gear icon)
+3. Select `Branches` in the left sidebar
+4. Click `Add classic branch protection rule`
+5. In *branch name pattern* type `main`
+6. Check the option `Require status checks to pass before merging`
+7. And select all the jobs you want to cancel the commit if failed
+8. Leave all other options by default
+9. Click `Create` at the bottom
+
+# Why no automatically process ?
+In the script there was a automated process of installing your branch protection, but this was only for Github Pro users. I decided to remove it.
+
+Now Github will automatically cancel your commit if any tests failed (depends on what you put in the select search box before).
 
 Enjoy! 💝
