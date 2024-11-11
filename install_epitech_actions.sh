@@ -28,5 +28,5 @@ print_message "Adding the workflow in this github..."
 cp -r /tmp/epitech-actions-github/.github "$REPO_PATH/.github"
 print_message "Cleaning up the useless files..."
 rm -rf /tmp/epitech-actions-github/
-print_message "The Epitech Actions Workflows is implemented in $REPO_PATH."
+print_message "The Epitech Actions Workflows is implemented in $REPO_PATH"
 print_message "Success!"
