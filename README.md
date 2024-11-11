@@ -18,9 +18,9 @@ This workflow will build your unit tests and check the coding style in your repo
 8. Leave all other options by default
 9. Click `Create` at the bottom
 
+Now Github will automatically cancel your commit if any tests failed (depends on what you put in the select search box before).
+
 # Why no automatically process ?
 In the script there was a automated process of installing your branch protection, but this was only for Github Pro users. I decided to remove it.
-
-Now Github will automatically cancel your commit if any tests failed (depends on what you put in the select search box before).
 
 Enjoy! 💝
