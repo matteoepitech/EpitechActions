@@ -49,6 +49,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y build-essential
+          sudo apt install wget
+          sudo apt install tar
 
       - name: Install criterion for tests
         run: |
