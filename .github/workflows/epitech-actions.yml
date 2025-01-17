@@ -3,23 +3,18 @@ name: Epitech Actions Workflow
 on:
   push:
     branches:
-      - main # This is the branch you want to make all your tests
+      - main
 
 jobs:
-
   style_check:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
 
       - name: Clone coding style checker repository
-        run : |
-          git clone https://github.com/Epitech/coding-style-checker.git /tmp/style-checker
+        run: |
+          git clone --depth 1 https://github.com/Epitech/coding-style-checker.git /tmp/style-checker
 
       - name: Run coding style checker
         run: |
@@ -31,8 +26,14 @@ jobs:
             echo "::error::${file_content}"
             exit 1
           else
-          echo "::notice::No coding style error reported. Good Job !"
+            echo "::notice::No coding style error reported. Good Job !"
           fi
+
+      - name: Save style check report
+        uses: actions/upload-artifact@v3
+        with:
+          name: style-check-report
+          path: epitech-actions-output-style.txt
 
   test:
     runs-on: ubuntu-latest
@@ -40,17 +41,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
 
-      - name: Install build essentials
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.criterion
+          key: criterion-${{ runner.os }}-${{ hashFiles('**/dependencies/install_criterion.sh') }}
+          restore-keys: |
+            criterion-${{ runner.os }}-
+
+      - name: Install essential packages
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential
-          sudo apt install wget
-          sudo apt install tar
+          sudo apt-get install -y build-essential wget tar
 
       - name: Install criterion for tests
         run: |
@@ -64,5 +67,5 @@ jobs:
           if grep -q '^tests_run:' Makefile; then
             make tests_run
           else
-          echo "::warning::No tests_run rule found in Makefile."
+            echo "::warning::No tests_run rule found in Makefile."
           fi
