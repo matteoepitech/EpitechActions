@@ -30,7 +30,7 @@ jobs:
           fi
 
       - name: Save style check report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: style-check-report
           path: epitech-actions-output-style.txt
