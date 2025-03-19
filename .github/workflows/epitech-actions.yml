@@ -23,33 +23,23 @@ jobs:
 
   Coding-Style:
     runs-on: ubuntu-latest
-    needs: Compiling
+    container: ghcr.io/epitech/coding-style-checker:latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Clone coding style checker repository
-        run: |
-          git clone --depth 1 https://github.com/Epitech/coding-style-checker.git /tmp/style-checker
+      - name: Check coding style
+        run: "check.sh $PWD $PWD"
 
-      - name: Run coding style checker
+      - name: Show coding style errors
         run: |
-          chmod +x /tmp/style-checker/coding-style.sh
-          /tmp/style-checker/coding-style.sh . . > epitech-actions-output-style.txt
-          errors=$(grep -o '^[0-9]\+' epitech-actions-output-style.txt | tail -n 1)
-          if [ "$errors" -gt 0 ]; then
-            file_content=$(tail -n 1 epitech-actions-output-style.txt)
-            echo "::error::${file_content}"
+          if [ -s coding-style-reports.log ]; then
+            while IFS=': ' read -r file line severity rule; do
+              echo "::error file=${file},line=${line},title=${severity} coding style error::${rule}"
+            done < coding-style-reports.log
             exit 1
-          else
-            echo "::notice::No coding style error reported. Good Job !"
           fi
-
-      - name: Save style check report
-        uses: actions/upload-artifact@v4
-        with:
-          name: style-check-report
-          path: epitech-actions-output-style.txt
   
   Valgrind-Errors:
     runs-on: ubuntu-latest
