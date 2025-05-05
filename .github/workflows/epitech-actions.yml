@@ -38,9 +38,6 @@ jobs:
         run: |
           echo "BINARY_NAME=$(grep '^NAME[[:space:]]*=' Makefile | sed 's/NAME[[:space:]]*=[[:space:]]*//')" >> $GITHUB_ENV
 
-      - name: Show files (debug)
-        run: ls -la .github/workflows/
-
       - name: Check allowed symbols
         run: |
           echo "Checking undefined symbols in binary..."
@@ -50,7 +47,7 @@ jobs:
             exit 1
           fi
 
-          symbols=$(nm -u ${{ env.BINARY_NAME }} | sed '/U _/d' | grep ' U ' | awk '{print $2}' | sort -u)
+          symbols=$(nm -u ${{ env.BINARY_NAME }} | sed '/U _/d' | grep ' U ' | awk '{print $2}' | sed 's/@GLIBC_.*//' | sort -u)
 
           echo "Found symbols:"
           echo "$symbols"
