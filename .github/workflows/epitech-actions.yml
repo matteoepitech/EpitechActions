@@ -26,6 +26,7 @@ jobs:
 
   Check-Funtions:
     runs-on: ubuntu-latest
+    needs: [Compiling]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -49,7 +50,7 @@ jobs:
             exit 1
           fi
 
-          symbols=$(nm -u ${{ env.BINARY_NAME }} | sed '/U _/d' | grep ' U ' | grep '@' | cut -d'@' -f1 | sort -u)
+          symbols=$(nm -u ${{ env.BINARY_NAME }} | sed '/U _/d' | grep ' U ' | awk '{print $2}' | sort -u)
 
           echo "Found symbols:"
           echo "$symbols"
@@ -93,7 +94,7 @@ jobs:
 
   Valgrind-Errors:
     runs-on: ubuntu-latest
-    needs: Compiling
+    needs: [Compiling]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -125,7 +126,7 @@ jobs:
 
   Unit-Tests-Criterion:
     runs-on: ubuntu-latest
-    needs: Compiling
+    needs: [Compiling]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
