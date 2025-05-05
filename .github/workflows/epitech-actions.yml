@@ -21,6 +21,43 @@ jobs:
         run: |
           make
 
+  Check-Funtions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build project
+        run: make
+      
+      - name: Extract binary name
+        run: echo "BINARY_NAME=$(grep '^NAME[[:space:]]*=' Makefile | sed 's/NAME[[:space:]]*=[[:space:]]*//')" >> $GITHUB_ENV
+
+      - name: Check allowed symbols
+        run: |
+          echo "Checking undefined symbols in binary..."
+          symbols=$(nm -u $BINARY_NAME | sed '/U _/d'| grep ' U ' | grep '@' | cut -d'@' -f1 | sort -u)
+
+          echo "Found symbols:"
+          echo "$symbols"
+
+          unauthorized=()
+          while read -r sym; do
+            if ! grep -qx "$sym" ./allowed_functions.txt; then
+              unauthorized+=("$sym")
+            fi
+          done <<< "$symbols"
+
+          if [ "${#unauthorized[@]}" -ne 0 ]; then
+            echo "Unauthorized symbols detected:"
+            for sym in "${unauthorized[@]}"; do
+              echo "  - $sym"
+            done
+            exit 1
+          else
+            echo "All undefined symbols are authorized!"
+          fi
+
   Coding-Style:
     runs-on: ubuntu-latest
     container: ghcr.io/epitech/coding-style-checker:latest
